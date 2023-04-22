@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -40,5 +42,20 @@ public class CalculatorService {
         if (table == null)
             return Integer.MIN_VALUE;
         return table.getRates().get(0).getMid();
+    }
+
+    public BigDecimal convertCurrency(String currency, boolean first) throws NumberFormatException {
+        try {
+            BigDecimal midValue = BigDecimal.valueOf(getMidValue());
+            if (first) {
+                BigDecimal firstCurrencyValue = new BigDecimal(currency);
+                return firstCurrencyValue.multiply(midValue).setScale(2, RoundingMode.HALF_UP);
+            } else {
+                BigDecimal secondCurrencyValue = new BigDecimal(currency);
+                return secondCurrencyValue.divide(midValue, 2, RoundingMode.HALF_UP);
+            }
+        } catch (NumberFormatException n) {
+            throw new NumberFormatException();
+        }
     }
 }
