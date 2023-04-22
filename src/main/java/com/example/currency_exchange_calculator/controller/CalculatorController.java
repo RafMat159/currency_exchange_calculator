@@ -37,8 +37,12 @@ public class CalculatorController {
     public String exchangeCurrency(@RequestParam(name = "currency1", required = false) String currency1,
                                    @RequestParam(name = "currency2", required = false) String currency2,
                                    RedirectAttributes redirectAttributes) {
+        currency1 = currency1 == null ? "" : currency1;
+        currency2 = currency2 == null ? "" : currency2;
         try {
-            if (currency1.contains("-") || currency2.contains("-"))
+            if ("".equals(currency1) && "".equals(currency2))
+                redirectAttributes.addFlashAttribute("error_message", "Fill any of the inputs");
+            else if (currency1.contains("-") || currency2.contains("-"))
                 redirectAttributes.addFlashAttribute("error_message", "Give a positive value");
             else if (!"".equals(currency1)) {
                 currency1 = currency1.replaceFirst("^0+(?!$)", "");
