@@ -1,0 +1,50 @@
+body {
+    background: beige;
+}
+
+form {
+    width: 40%;
+    margin: auto;
+}
+
+h2 {
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.input-value {
+    background: white;
+    border: 2px solid black;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+svg {
+    padding: 0 10px;
+}
+
+input {
+    width: 80%;
+    position: relative;
+    border: none;
+    display: block;
+    float: left;
+    padding-left: 10px;
+    font-size: small;
+}
+
+#redirect-to-main {
+    text-align: center;
+}
+
+@media (min-width: 1240px) {
+    input {
+        width: 90%;
+    }
+}
+
