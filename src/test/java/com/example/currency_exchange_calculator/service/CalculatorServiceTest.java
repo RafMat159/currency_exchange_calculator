@@ -84,13 +84,13 @@ public class CalculatorServiceTest {
     }
 
     @Test
-    public void testConvertCurrencyForFirstCurrency() throws Exception {
+    public void testConvertCurrencyValueForFirstCurrency() throws Exception {
         // given
         when(objectMapper.readValue(any(URL.class), ArgumentMatchers.eq(Table.class))).thenReturn(table);
         first = true;
 
         // when
-        BigDecimal convertedValue = calculatorService.convertCurrency(CORRECT_CURRENCY_VALUE, first);
+        BigDecimal convertedValue = calculatorService.convertCurrencyValue(CORRECT_CURRENCY_VALUE, first);
 
         // then
         BigDecimal expectedValue = BigDecimal.valueOf(51).setScale(2, RoundingMode.HALF_UP);
@@ -98,13 +98,13 @@ public class CalculatorServiceTest {
     }
 
     @Test
-    public void testConvertCurrencyForSecondCurrency() throws Exception {
+    public void testConvertCurrencyValueForSecondCurrency() throws Exception {
         // given
         when(objectMapper.readValue(any(URL.class), ArgumentMatchers.eq(Table.class))).thenReturn(table);
         first = false;
 
         // when
-        BigDecimal convertedValue = calculatorService.convertCurrency(CORRECT_CURRENCY_VALUE, first);
+        BigDecimal convertedValue = calculatorService.convertCurrencyValue(CORRECT_CURRENCY_VALUE, first);
 
         // then
         BigDecimal expectedValue = BigDecimal.valueOf(1.96).setScale(2, RoundingMode.HALF_UP);
@@ -112,12 +112,12 @@ public class CalculatorServiceTest {
     }
 
     @Test
-    public void testConvertCurrencyForInvalidInput() throws Exception {
+    public void testConvertCurrencyValueForInvalidInput() throws Exception {
         // given
         when(objectMapper.readValue(any(URL.class), ArgumentMatchers.eq(Table.class))).thenReturn(table);
         first = true;
 
         // when & then
-        assertThrows(NumberFormatException.class, () -> calculatorService.convertCurrency(INCORRECT_CURRENCY_VALUE, first));
+        assertThrows(NumberFormatException.class, () -> calculatorService.convertCurrencyValue(INCORRECT_CURRENCY_VALUE, first));
     }
 }

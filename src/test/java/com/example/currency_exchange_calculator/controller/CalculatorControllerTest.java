@@ -17,8 +17,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(CalculatorController.class)
 public class CalculatorControllerTest {
 
-    private String currency1;
-    private String currency2;
+    private String currencyValue1;
+    private String currencyValue2;
 
     @Autowired
     private MockMvc mockMvc;
@@ -44,15 +44,15 @@ public class CalculatorControllerTest {
     @Test
     public void testExchangeCurrencyForRedirectToGetCalculatorPage() throws Exception {
         //given
-        currency1 = "100";
-        currency2 = "";
+        currencyValue1 = "100";
+        currencyValue2 = "";
         BigDecimal calculatedValueCurrency2 = new BigDecimal("22.22");
-        given(calculatorService.convertCurrency(currency1, true)).willReturn(calculatedValueCurrency2);
+        given(calculatorService.convertCurrencyValue(currencyValue1, true)).willReturn(calculatedValueCurrency2);
 
         //when
         mockMvc.perform(post("/exchange")
-                        .param("currency1", currency1)
-                        .param("currency2", currency2))
+                        .param("currencyValue1", currencyValue1)
+                        .param("currencyValue2", currencyValue2))
 
         //then
                 .andExpect(status().is3xxRedirection())
@@ -60,30 +60,30 @@ public class CalculatorControllerTest {
     }
 
     @Test
-    public void testExchangeCurrencyShouldAddFlashAttributesForCurrency1AndConvertedCurrency2() throws Exception {
+    public void testExchangeCurrencyShouldAddFlashAttributesForCurrencyValue1AndConvertedCurrencyValue2() throws Exception {
         //givem
-        currency1 = "100";
-        currency2 = "";
+        currencyValue1 = "100";
+        currencyValue2 = "";
         BigDecimal calculatedValueCurrency2 = new BigDecimal("22.22");
-        given(calculatorService.convertCurrency(currency1, true)).willReturn(calculatedValueCurrency2);
+        given(calculatorService.convertCurrencyValue(currencyValue1, true)).willReturn(calculatedValueCurrency2);
 
         //when
         mockMvc.perform(post("/exchange")
-                        .param("currency1", currency1)
-                        .param("currency2", currency2))
+                        .param("currencyValue1", currencyValue1)
+                        .param("currencyValue2", currencyValue2))
 
         //then
-                .andExpect(flash().attribute("currency1", currency1))
-                .andExpect(flash().attribute("currency2", calculatedValueCurrency2));
+                .andExpect(flash().attribute("currencyValue1", currencyValue1))
+                .andExpect(flash().attribute("currencyValue2", calculatedValueCurrency2));
     }
 
     @Test
     public void testExchangeCurrencyShouldAddFlashAttributeForNegativeCurrencyValue() throws Exception {
         //given
-        currency1 = "-100";
+        currencyValue1 = "-100";
         //when
         mockMvc.perform(post("/exchange")
-                        .param("currency1", currency1))
+                        .param("currencyValue1", currencyValue1))
 
         //then
                 .andExpect(flash().attributeExists("error_message"));
@@ -92,12 +92,12 @@ public class CalculatorControllerTest {
     @Test
     public void testExchangeCurrencyForAddFlashAttributeForErrorMessageIfRandomSituationOccured() throws Exception {
         //given
-        currency1 = null;
-        currency2 = null;
+        currencyValue1 = null;
+        currencyValue2 = null;
         //when
         mockMvc.perform(post("/exchange")
-                        .param("currency1", currency1)
-                        .param("currency2", currency2))
+                        .param("currencyValue1", currencyValue1)
+                        .param("currencyValue2", currencyValue2))
 
         //then
                 .andExpect(flash().attributeExists("error_message"));

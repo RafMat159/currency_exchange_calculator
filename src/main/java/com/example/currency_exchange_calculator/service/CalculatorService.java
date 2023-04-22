@@ -44,14 +44,14 @@ public class CalculatorService {
         return table.getRates().get(0).getMid();
     }
 
-    public BigDecimal convertCurrency(String currency, boolean first) throws NumberFormatException {
+    public BigDecimal convertCurrencyValue(String currencyValue, boolean first) throws NumberFormatException {
         try {
             BigDecimal midValue = BigDecimal.valueOf(getMidValue());
             if (first) {
-                BigDecimal firstCurrencyValue = new BigDecimal(currency);
+                BigDecimal firstCurrencyValue = new BigDecimal(currencyValue);
                 return firstCurrencyValue.multiply(midValue).setScale(2, RoundingMode.HALF_UP);
             } else {
-                BigDecimal secondCurrencyValue = new BigDecimal(currency);
+                BigDecimal secondCurrencyValue = new BigDecimal(currencyValue);
                 return secondCurrencyValue.divide(midValue, 2, RoundingMode.HALF_UP);
             }
         } catch (NumberFormatException n) {

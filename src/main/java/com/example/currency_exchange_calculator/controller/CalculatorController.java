@@ -34,26 +34,26 @@ public class CalculatorController {
     }
 
     @PostMapping("/exchange")
-    public String exchangeCurrency(@RequestParam(name = "currency1", required = false) String currency1,
-                                   @RequestParam(name = "currency2", required = false) String currency2,
+    public String exchangeCurrency(@RequestParam(name = "currencyValue1", required = false) String currencyValue1,
+                                   @RequestParam(name = "currencyValue2", required = false) String currencyValue2,
                                    RedirectAttributes redirectAttributes) {
-        currency1 = currency1 == null ? "" : currency1;
-        currency2 = currency2 == null ? "" : currency2;
+        currencyValue1 = currencyValue1 == null ? "" : currencyValue1;
+        currencyValue2 = currencyValue2 == null ? "" : currencyValue2;
         try {
-            if ("".equals(currency1) && "".equals(currency2))
+            if ("".equals(currencyValue1) && "".equals(currencyValue2))
                 redirectAttributes.addFlashAttribute("error_message", "Fill any of the inputs");
-            else if (currency1.contains("-") || currency2.contains("-"))
+            else if (currencyValue1.contains("-") || currencyValue2.contains("-"))
                 redirectAttributes.addFlashAttribute("error_message", "Give a positive value");
-            else if (!"".equals(currency1)) {
-                currency1 = currency1.replaceFirst("^0+(?!$)", "");
-                BigDecimal secondCurrencyValue = calculatorService.convertCurrency(currency1, true);
-                redirectAttributes.addFlashAttribute("currency1", currency1);
-                redirectAttributes.addFlashAttribute("currency2", secondCurrencyValue);
-            } else if (!"".equals(currency2)) {
-                currency2 = currency2.replaceFirst("^0+(?!$)", "");
-                BigDecimal firstCurrencyValue = calculatorService.convertCurrency(currency2, false);
-                redirectAttributes.addFlashAttribute("currency1", firstCurrencyValue);
-                redirectAttributes.addFlashAttribute("currency2", currency2);
+            else if (!"".equals(currencyValue1)) {
+                currencyValue1 = currencyValue1.replaceFirst("^0+(?!$)", "");
+                BigDecimal secondCurrencyValue = calculatorService.convertCurrencyValue(currencyValue1, true);
+                redirectAttributes.addFlashAttribute("currencyValue1", currencyValue1);
+                redirectAttributes.addFlashAttribute("currencyValue2", secondCurrencyValue);
+            } else if (!"".equals(currencyValue2)) {
+                currencyValue2 = currencyValue2.replaceFirst("^0+(?!$)", "");
+                BigDecimal firstCurrencyValue = calculatorService.convertCurrencyValue(currencyValue2, false);
+                redirectAttributes.addFlashAttribute("currencyValue1", firstCurrencyValue);
+                redirectAttributes.addFlashAttribute("currencyValue2", currencyValue2);
             }
         } catch (NumberFormatException n) {
             redirectAttributes.addFlashAttribute("error_message", "Wrong data was given");
